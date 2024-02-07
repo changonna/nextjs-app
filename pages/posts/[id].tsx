@@ -2,7 +2,8 @@ import { getAllPostIds, getPostData } from '@/lib/posts'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import React from 'react'
-// import { homeStyles } from '@/styles/Home.module.css';
+import homeStyles from '../../styles/home.module.css'
+import postStyle from '../../styles/Post.module.css';
 
 const Post = ({ postData }: {
   postData: {
@@ -12,13 +13,13 @@ const Post = ({ postData }: {
   }
 }) => {
   return (
-    <div>
+    <div className={postStyle.container}>
       <Head>
         <title>{postData.title}</title>
       </Head>
       <article>
-        <h1>{postData.title}</h1>
-        <div>
+        <h1 className={homeStyles.headingXl}>{postData.title}</h1>
+          <div className={homeStyles.lightText}>
           {postData.date}
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
@@ -42,7 +43,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   console.log('params', params);
   // { id: 'ssg-ssr' }
-  const postData = await getPostData(params.id as string)
+  const postData = await getPostData(params?.id as string)
   return {
       props: {
           postData
